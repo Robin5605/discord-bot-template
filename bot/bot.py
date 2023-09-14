@@ -17,3 +17,6 @@ class Bot(commands.Bot):
             log.info("Loading %s", ext)
             await self.load_extension(ext)
         log.info("Finished loading extensions")
+
+    async def on_error(self, event: str, *args, **kwargs) -> None:
+        log.exception(f"Unhandled exception in {event}.")
