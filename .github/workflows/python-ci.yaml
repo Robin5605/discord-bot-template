@@ -47,15 +47,6 @@ jobs:
         if: steps.python_cache.outputs.cache-hit != 'true'
         run: pip install --upgrade pip wheel setuptools pre-commit
 
-      # This step caches our pre-commit environment. To make sure we
-      # do create a new environment when our pre-commit setup changes,
-      # we create a cache key based on relevant factors.
-      - name: "Pre-commit environment caching"
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
-        with:
-          path: ${{ env.PRE_COMMIT_HOME }}
-          key: "precommit-v0-${{ runner.os }}-${{ env.PRE_COMMIT_HOME }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('./.pre-commit-config.yaml') }}"
-
       # As pre-commit does not support user installs, we set
       # PIP_USER=0 to not do a user install.
       - name: "Run pre-commit hooks"
