@@ -32,6 +32,3 @@ Install pre-commit hooks using `pre-commit install`. It will now run on all `git
 
 ### Continuous Integration (CI)
 This template comes with a few GitHub Actions for building and publishing Docker images to the GitHub Container Registry, and linting and testing Python code on commits and pull requests.
-
-# Licensing
-This template uses a MIT license. You are free to do whatever you want with it, including copying it, redistributing it (for personal and for commerical), without credit.
