@@ -38,28 +38,20 @@ jobs:
     needs: pre-commit
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ "3.11" ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        python_version: [ "3.11", "3.10", "3.9" ]
 
-    runs-on: ${{ inputs.os }}
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
 
       - name: "Setup Python"
-        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0 # 1.4.0
         with:
-          python-version: "${{ inputs.python-version }}"
-          allow-prereleases: true
-          cache: "pip"
-          cache-dependency-path: "pyproject.toml"
-
-      - name: "Update packaging tools"
-        run: python -m pip install --upgrade pip wheel setuptools build
-
-      - name: "Install dependencies"
-        run: python -m pip install --editable .[tests]
+          python_version: "${{ matrix.python_version }}"
+          install_args: "--with dev"
 
       - name: "Run tests"
         run: python -m pytest
