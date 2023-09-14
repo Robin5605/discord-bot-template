@@ -39,7 +39,7 @@ jobs:
         id: python_cache
         with:
           path: ${{ env.PYTHONUSERBASE }}
-          key: "python-v0-${{ runner.os }}-${{ env.PYTHONUSERBASE }}-${{ steps.python.outputs.python-version }}"          
+          key: "python-v0-${{ runner.os }}-${{ env.PYTHONUSERBASE }}-${{ steps.python.outputs.python-version }}"
 
       # Install our dependencies if we did not restore a dependency cache
       - name: "Install dependencies using pip"
@@ -63,7 +63,7 @@ jobs:
   lint:
     needs: pre-commit
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
