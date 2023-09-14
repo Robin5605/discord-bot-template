@@ -27,6 +27,7 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0 # 1.4.0
         with:
           python_version: '3.x'
+          install_args: "--with dev"
 
       # This step caches our Python dependencies. To make sure we
       # only restore a cache when the dependencies, the python version,
