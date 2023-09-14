@@ -1,0 +1,118 @@
+name: "Python CI"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    env:
+      PIP_NO_CACHE_DIR: false
+      PIP_USER: 1
+      PYTHONUSERBASE: ${{ github.workspace }}/.cache/py-user-base
+      PRE_COMMIT_HOME: ${{ github.workspace }}/.cache/pre-commit-cache
+
+    steps:
+      - name: "Add custom PYTHONUSERBASE to PATH"
+        run: echo '${{ env.PYTHONUSERBASE }}/bin/' >> $GITHUB_PATH
+
+      - name: "Checkout repository"
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+
+      - name: "Setup Python"
+        id: python
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
+        with:
+          python-version: '3.x'
+
+      # This step caches our Python dependencies. To make sure we
+      # only restore a cache when the dependencies, the python version,
+      # the runner operating system, and the dependency location haven't
+      # changed, we create a cache key that is a composite of those states.
+      #
+      # Only when the context is exactly the same, we will restore the cache.
+      - name: "Python dependency caching"
+        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        id: python_cache
+        with:
+          path: ${{ env.PYTHONUSERBASE }}
+          key: "python-v0-${{ runner.os }}-${{ env.PYTHONUSERBASE }}-${{ steps.python.outputs.python-version }}"          
+
+      # Install our dependencies if we did not restore a dependency cache
+      - name: "Install dependencies using pip"
+        if: steps.python_cache.outputs.cache-hit != 'true'
+        run: pip install --upgrade pip wheel setuptools pre-commit
+
+      # This step caches our pre-commit environment. To make sure we
+      # do create a new environment when our pre-commit setup changes,
+      # we create a cache key based on relevant factors.
+      - name: "Pre-commit environment caching"
+        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        with:
+          path: ${{ env.PRE_COMMIT_HOME }}
+          key: "precommit-v0-${{ runner.os }}-${{ env.PRE_COMMIT_HOME }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('./.pre-commit-config.yaml') }}"
+
+      # As pre-commit does not support user installs, we set
+      # PIP_USER=0 to not do a user install.
+      - name: "Run pre-commit hooks"
+        run: export PIP_USER=0; pre-commit run --all-files
+
+  lint:
+    needs: pre-commit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+
+      - name: "Setup Python"
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
+        with:
+          python-version: "3.x"
+          cache: "pip"
+          cache-dependency-path: "pyproject.toml"
+
+      - name: "Update packaging tools"
+        run: python -m pip install --upgrade pip wheel setuptools build
+
+      - name: "Install dependencies"
+        run: python -m pip install --editable .[dev,tests]
+
+      - name: "Check formatting"
+        run: black --check src/
+
+      - name: "Run ruff"
+        run: "python -m ruff check --format=github src/"
+
+  test:
+    needs: lint
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        python-version: [ "3.11" ]
+
+    runs-on: ${{ inputs.os }}
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+
+      - name: "Setup Python"
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4.7.0
+        with:
+          python-version: "${{ inputs.python-version }}"
+          allow-prereleases: true
+          cache: "pip"
+          cache-dependency-path: "pyproject.toml"
+
+      - name: "Update packaging tools"
+        run: python -m pip install --upgrade pip wheel setuptools build
+
+      - name: "Install dependencies"
+        run: python -m pip install --editable .[tests]
+
+      - name: "Run tests"
+        run: python -m pytest
