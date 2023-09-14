@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "bot"
+version = "0.1.0"
+description = "discord.py bot template"
+authors = ["Robin5605 <robinjefferson123@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic-settings = "^2.0.3"
+discord-py = "^2.3.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+ruff = "^0.0.289"
+black = "^23.9.1"
+pre-commit = "^3.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
