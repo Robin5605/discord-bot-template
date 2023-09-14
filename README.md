@@ -1,6 +1,6 @@
 # Discord Bot Template
 
-A Discord bot template using discord.py that works very well for me. 
+A Discord bot template using discord.py that works very well for me.
 Discord bots can actually end up having a lot of boilerplate code for more serious Discord bot projects,
 so I've created this repository to help expedite that process of getting started.
 
@@ -31,7 +31,7 @@ Tests should go in the `tests/` directory. This template uses `pytest` for autom
 Install pre-commit hooks using `pre-commit install`. It will now run on all `git commit`s. This pre-commit is composed of tools like [Black](https://github.com/psf/black) and [Ruff](https://github.com/astral-sh/ruff) which can each be configured under the `[tool.black]` and `[tool.ruff]` sections of `pyproject.toml` respectively. Feel free to customize and tweak these settings to your liking.
 
 ### Continuous Integration (CI)
-This template comes with a few GitHub Actions for building and publishing Docker images to the GitHub Container Registry, and linting and testing Python code on commits and pull requests. 
+This template comes with a few GitHub Actions for building and publishing Docker images to the GitHub Container Registry, and linting and testing Python code on commits and pull requests.
 
 # Licensing
-This template uses a MIT license. You are free to do whatever you want with it, including copying it, redistributing it (for personal and for commerical), without credit. 
+This template uses a MIT license. You are free to do whatever you want with it, including copying it, redistributing it (for personal and for commerical), without credit.
