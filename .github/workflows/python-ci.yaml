@@ -29,24 +29,6 @@ jobs:
           python_version: '3.x'
           install_args: "--with dev"
 
-      # This step caches our Python dependencies. To make sure we
-      # only restore a cache when the dependencies, the python version,
-      # the runner operating system, and the dependency location haven't
-      # changed, we create a cache key that is a composite of those states.
-      #
-      # Only when the context is exactly the same, we will restore the cache.
-      - name: "Python dependency caching"
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
-        id: python_cache
-        with:
-          path: ${{ env.PYTHONUSERBASE }}
-          key: "python-v0-${{ runner.os }}-${{ env.PYTHONUSERBASE }}-${{ steps.python.outputs.python-version }}"
-
-      # Install our dependencies if we did not restore a dependency cache
-      - name: "Install dependencies using pip"
-        if: steps.python_cache.outputs.cache-hit != 'true'
-        run: pip install --upgrade pip wheel setuptools pre-commit
-
       # As pre-commit does not support user installs, we set
       # PIP_USER=0 to not do a user install.
       - name: "Run pre-commit hooks"
