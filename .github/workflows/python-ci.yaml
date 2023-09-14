@@ -26,7 +26,7 @@ jobs:
         id: python
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0 # 1.4.0
         with:
-          python-version: '3.x'
+          python_version: '3.x'
 
       # This step caches our Python dependencies. To make sure we
       # only restore a cache when the dependencies, the python version,
