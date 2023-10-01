@@ -24,7 +24,7 @@ jobs:
 
       - name: "Setup Python"
         id: python
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0 # 1.4.0
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.2 # 1.4.0
         with:
           python_version: '3.x'
           install_args: "--with dev"
@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
 
       - name: "Setup Python"
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.0 # 1.4.0
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.2 # 1.4.0
         with:
           python_version: "${{ matrix.python_version }}"
           install_args: "--with dev"
