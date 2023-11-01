@@ -16,7 +16,7 @@ discord-py = "^2.3.2"
 pytest = "^7.4.2"
 ruff = "^0.0.289"
 black = "^23.9.1"
-pre-commit = "^3.4.0"
+pre-commit = "^3.5.0"
 
 [build-system]
 requires = ["poetry-core"]
