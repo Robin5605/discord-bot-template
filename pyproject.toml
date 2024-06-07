@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.11"
 pydantic-settings = "^2.0.3"
 discord-py = "^2.3.2"
+aiohttp = "^3.9.5"
 
 
 [tool.poetry.group.dev.dependencies]
