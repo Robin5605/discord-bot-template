@@ -15,7 +15,6 @@ discord-py = "^2.3.2"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"
 ruff = "^0.0.289"
-black = "^23.9.1"
 pre-commit = "^3.4.0"
 
 [build-system]
