@@ -20,3 +20,6 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      docker-dependencies:
+        patterns: ["*"]
