@@ -9,6 +9,9 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      python-dependencies:
+        patterns: ["*"]
 
   - package-ecosystem: "docker"
     directory: "/"
